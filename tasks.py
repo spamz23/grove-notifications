@@ -1,42 +1,77 @@
 import numpy as np
 import collections
 
-def load_list():
-    return np.loadtxt("lista.txt", dtype="str", delimiter=",")
 
-def update_list(lst):
-    lst = list(lst)
-    return lst[-1:] + lst[:-1]
+class Task:
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
 
-def save_list(lst):
-    np.savetxt("lista.txt", lst, fmt="%s")
-
-def send_email(person:Person):
-    ...
-
-def get_person_wc(lst):
-    return [t for t in person_list if t.name.lower() == lst[0].lower()][0]
-
-def get_person_stairs(lst):
-    return [t for t in person_list if t.name.lower() == lst[1].lower()][0]
+    def __repr__(self):
+        return self.__str__()
+    def __str__(self):
+        return f"{self.name}: {self.description}"
 
 
-def task():
-    #fazer load da lista para ver a ordem atual
-    lst = load_list()
-    #alterar a lista para a nova ordem
-    lst = update_list(lst)
-    #salvar a lista na nova ordem para na proxima semana ser carregada para novos emails
-    save_list(lst)
-    # obter a quem enviar email e o que vai fazer
-    person_wc = get_person_wc(lst)
-    person_stairs = get_person_stairs(lst)
-    # Send email
+class Person:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+        self.tasks = []
+
+    def add_task(self, tsk: Task):
+        self.tasks.append(tsk)
+
+    def send_email(self):
+        return self
+
+    def __str__(self):
+        return f"{self.name} ({self.email}) with tasks: {self.tasks}"
+    def __repr__(self):
+        return self.__str__()
+
+    def __gt__(self, person2):
+        return self.name > person2.name
 
 
-Person = collections.namedtuple('Person', ['name', 'email']) 
-Paulo = Person('Paulo', 'paulo_5_cesar@hotmail.com') 
-Carlos = Person('Carlos', 'carlos.moreira12@hotmail.com') 
-Bruno = Person('Bruno', 'bruno.miguel19995@gmail.com') 
-Diogo = Person('Diogo', 'diogosilv30@gmail.com') 
-person_list = [Paulo, Carlos, Bruno, Diogo]
+TASKS = [Task("WC-CIMA", "limpar wc"), Task("escadas", "dwdqw"), Task("nova task", "323")]
+
+PERSONS = [
+    Person("Paulo", "paulo_5_cesar@hotmail.com"),
+    Person("Carlos", "carlos.moreira12@hotmail.com"),
+    Person("Bruno", "bruno.miguel19995@gmail.com"),
+    Person("Diogo", "diogosilv30@gmail.com"),
+]
+
+
+
+def load(filename="list.txt"):
+    return list(np.loadtxt(filename, dtype="str", delimiter=","))
+
+def sort():
+    # Load file
+    target=load()
+    # Make lowercase
+    target=[el.lower() for el in target]
+    # Create empty list of size 'target'
+    new_list=[None] * len(target)
+    for person in PERSONS:
+        new_list[target.index(person.name.lower())]=person
+
+    return new_list
+
+
+def push_list_forward(lst, filename="list.txt"):
+    
+    lst=lst[-1:] + lst[:-1]
+    np.savetxt("list.txt", lst, fmt="%s")
+
+
+push_list_forward(load())
+persons=sort()
+for i, task in enumerate(TASKS):
+    persons[i].add_task(task)
+
+notified_persons=[person.send_email() for person in persons if len(person.tasks)!=0]
+
+print("Sent email to:", notified_persons)
