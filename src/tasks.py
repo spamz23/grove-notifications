@@ -1,4 +1,6 @@
 import numpy as np
+import schedule
+import time
 
 
 class Task:
@@ -29,6 +31,9 @@ class Person:
     def __repr__(self):
         return self.__str__()
 
+    def clean_tasks(self):
+        self.tasks=[]
+        return self
 TASKS = [Task("WC-CIMA", "limpar wc"), Task("escadas", "dwdqw"), Task("nova task", "323")]
 
 PERSONS = [
@@ -62,11 +67,21 @@ def push_list_forward(lst, filename="list.txt"):
     np.savetxt("list.txt", lst, fmt="%s")
 
 
-push_list_forward(load())
-persons=sort()
-for i, task in enumerate(TASKS):
-    persons[i].add_task(task)
+def task():
+    push_list_forward(load())
+    persons=sort()
+    for i, task in enumerate(TASKS):
+        persons[i].add_task(task)
 
-notified_persons=[person.send_email() for person in persons if len(person.tasks)!=0]
+    notified_persons=[person.send_email() for person in persons if len(person.tasks)!=0]
+    print("Sent email to:", notified_persons)
+    PERSONS=[p.clean_tasks() for p in persons]
 
-print("Sent email to:", notified_persons)
+
+task()
+
+schedule.every(5).seconds.do(task)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
