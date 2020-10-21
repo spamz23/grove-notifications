@@ -164,3 +164,6 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,vscode,virtualenv
 .vscode/settings.json
+
+# IMPORTANT, hide gmail API credentials
+*credentials.json
