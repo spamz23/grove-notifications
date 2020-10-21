@@ -2,6 +2,7 @@ import numpy as np
 import schedule
 import time
 
+
 class Task:
     def __init__(self, name, description):
         self.name = name
