@@ -1,1 +1,1 @@
-worker: celery -A grove.core.tasks worker -B --loglevel=info
+worker: celery -A grove.tasks worker -B --loglevel=info
