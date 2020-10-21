@@ -11,10 +11,10 @@ app = Celery("tasks")
 
 # Use Redis as our broker and define json as the default serializer
 app.conf.update(
-    BROKER_URL=REDIS_URL,
-    CELERY_TASK_SERIALIZER="json",
-    CELERY_ACCEPT_CONTENT=["json"],
-    CELERYBEAT_SCHEDULE={
+    broker_url =REDIS_URL,
+    task_serializer ="json",
+    accept_content =["json"],
+    beat_schedule ={
         # Runs every Sunday at 16h30
         "cleaning": {
             "task": "tasks.cleaning",
