@@ -77,6 +77,6 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     subject = subject
     to_email = Email(email_dest)
     content = Content("text/html", message)
-    mail = Mail(from_email, subject, to_email, content)
-    sg.client.mail.send.post(request_body=mail.get())
-    
+    mail = Mail(from_email, to_email, subject, content)
+
+    sg.send(mail)    
