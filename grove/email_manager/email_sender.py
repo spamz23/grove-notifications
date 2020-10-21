@@ -75,7 +75,7 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
     from_email = Email("grovehouse.vr@gmail.com")
     subject = subject
-    to_email = Email(email_dest)
+    to_email = To(email_dest)
     content = Content("text/html", message)
     mail = Mail(from_email, to_email, subject, content)
 
