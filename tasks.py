@@ -29,8 +29,8 @@ def task():
     #salvar a lista na nova ordem para na proxima semana ser carregada para novos emails
     save_list(lst)
     # obter a quem enviar email e o que vai fazer
-    get_person_wc(lst)
-    get_person_stairs()
+    person_wc = get_person_wc(lst)
+    person_stairs = get_person_stairs(lst)
     # Send email
 
 
