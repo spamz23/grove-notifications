@@ -33,7 +33,7 @@ app.conf.update(
             "schedule": crontab(0,0, day_of_month=26),
         },
         'test':{
-            "task":"grove.tasks.test",
+            "task":"tasks.test",
             "schedule": 30.0,
 
         }
