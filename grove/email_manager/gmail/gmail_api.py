@@ -50,7 +50,7 @@ def get_credentials():
     credentials = store.get()
 
     if not credentials or credentials.invalid:
-        CLIENT_SECRET_FILE = os.environ['GOOGLE_APPLICATION_CREDENTIALS', os.path.join(pathlib.Path(__file__).parent.absolute(),"credentials.json")]
+        CLIENT_SECRET_FILE = os.getenv('GOOGLE_APPLICATION_CREDENTIALS', os.path.join(pathlib.Path(__file__).parent.absolute(),"credentials.json"))
         APPLICATION_NAME = "grovehouse-1603228701655"
         # The scope URL for read/write access to a user's calendar data
         SCOPES = "https://www.googleapis.com/auth/gmail.send"
