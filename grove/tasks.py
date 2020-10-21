@@ -85,6 +85,7 @@ def cleaning():
 
 
     
+
 @app.task
 def warn_tuition_fees():
     # Create task for everyone and send email
