@@ -17,24 +17,24 @@ app.conf.update(
     beat_schedule ={
         # Runs every Sunday at 16h30
         "cleaning": {
-            "task": "tasks.cleaning",
+            "task": "grove.tasks.cleaning",
             "schedule": crontab(hour=16, minute=30, day_of_week=0),
         },
         'tuition-fees':{
-            "task": "tasks.warn_tuition_fees",
+            "task": "grove.tasks.warn_tuition_fees",
             "schedule": crontab(0,0, day_of_month=28),
         },
         'light':{
-            "task": "tasks.send_light_mileage",
+            "task": "grove.tasks.send_light_mileage",
             "schedule": crontab(0,0, day_of_month=26),
         },
         'internet':{
-            "task": "tasks.send_internet_money",
+            "task": "grove.tasks.send_internet_money",
             "schedule": crontab(0,0, day_of_month=26),
         },
         'test':{
-            "task":"tasks.test",
-            "schedule": 30.0,
+            "task":"grove.tasks.test",
+            "schedule": crontab(minute=40, hour=0),
 
         }
 
