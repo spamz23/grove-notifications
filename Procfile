@@ -1,2 +1,2 @@
 celery: celery -A main beat  -l info
-worker: celery -A main worker --concurrency=3 -l INFO
+worker: celery -A main worker --concurrency=1 -l INFO

@@ -4,10 +4,15 @@ from the Grove House email ("grovehouse.vr@gmail.com")
 """
 import io
 
+import sendgrid
+import os
+from sendgrid.helpers.mail import *
+
+
+
 from bs4 import BeautifulSoup
 from PIL import Image
 
-from grove.email_manager.gmail.gmail_api import create_message_and_send
 
 
 def _image_to_bytes(img_location: str) -> bytes:
@@ -67,10 +72,11 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     """
     message = _insert_msg_in_html("grove/email_manager/template.html", body_msg)
     img = _image_to_bytes("grove/email_manager/grove.jpg")
-    create_message_and_send(
-        "grovehouse.vr@gmail.com",
-        email_dest,
-        subject,
-        message,
-        img,
-    )
+    sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+    from_email = Email("grovehouse.vr@gmail.com")
+    subject = subject
+    to_email = Email(email_dest)
+    content = Content("text/html", message)
+    mail = Mail(from_email, subject, to_email, content)
+    sg.client.mail.send.post(request_body=mail.get())
+    
