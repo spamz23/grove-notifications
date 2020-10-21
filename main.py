@@ -40,4 +40,4 @@ app.conf.update(
 
     },
 )
-app.autodiscover_tasks(['grove'])
+app.autodiscover_tasks(['grove'], force=True)
