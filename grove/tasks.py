@@ -2,7 +2,7 @@ import numpy as np
 
 from datetime import timedelta
 
-from .email_manager import send_mail
+from grove.email_manager.email_sender import send_mail
 
 from main import app
 

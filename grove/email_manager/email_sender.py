@@ -7,7 +7,7 @@ import io
 from bs4 import BeautifulSoup
 from PIL import Image
 
-from .gmail import create_message_and_send
+from grove.email_manager.gmail.gmail_api import create_message_and_send
 
 
 def _image_to_bytes(img_location: str) -> bytes:
