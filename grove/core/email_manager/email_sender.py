@@ -65,8 +65,8 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     body_msg:str
         The message to insert in the email html template body
     """
-    message = _insert_msg_in_html("template.html", body_msg)
-    img = _image_to_bytes("grove.jpg")
+    message = _insert_msg_in_html("grove/core/email_manager/template.html", body_msg)
+    img = _image_to_bytes("grove/core/email_manager/grove.jpg")
     create_message_and_send(
         "grovehouse.vr@gmail.com",
         email_dest,

@@ -5,7 +5,10 @@ import httplib2
 import os
 from oauth2client import client, tools, file
 import base64
-
+import pathlib
+from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
+from email.mime.text import MIMEText
 
 # List of all mimetype per extension: http://help.dottoro.com/lapuadlp.php  or http://mime.ritey.com/
 
@@ -47,7 +50,7 @@ def get_credentials():
     credentials = store.get()
 
     if not credentials or credentials.invalid:
-        CLIENT_SECRET_FILE = "credentials.json"
+        CLIENT_SECRET_FILE = os.path.join(pathlib.Path(__file__).parent.absolute(),"credentials.json")
         APPLICATION_NAME = "grovehouse-1603228701655"
         # The scope URL for read/write access to a user's calendar data
         SCOPES = "https://www.googleapis.com/auth/gmail.send"
