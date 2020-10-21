@@ -30,10 +30,6 @@ class Person:
     def __repr__(self):
         return self.__str__()
 
-    def __gt__(self, person2):
-        return self.name > person2.name
-
-
 TASKS = [Task("WC-CIMA", "limpar wc"), Task("escadas", "dwdqw"), Task("nova task", "323")]
 
 PERSONS = [
