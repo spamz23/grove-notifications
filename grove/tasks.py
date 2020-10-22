@@ -1,12 +1,17 @@
+""" This modules defines all the periodic tasks running in the server"""
 import numpy as np
-
-from datetime import timedelta
 
 from grove.email_manager.email_sender import send_mail
 
 from main import app
 
+
 class Task:
+    """
+    This class defines a task that should be performed
+    by a house member
+    """
+
     def __init__(self, name, description):
         self.name = name
         self.description = description
@@ -19,24 +24,28 @@ class Task:
 
 
 class Person:
+    """ This class defines a person living in Grove House"""
+
     def __init__(self, name, email):
         self.name = name
         self.email = email
 
     def send_email(self, tsk: Task):
-        
+        """Sends an email informing a person of a certain task
+
+        Parameters
+        ----------
+        tsk: Task
+            The task to notify person with
+        """
         print(f"Sending email to {self} with Task: {tsk}")
-        return send_mail(
-            self.email, "GroveHouse - " + tsk.name, tsk.description
-        )
+        send_mail(self.email, "GroveHouse - " + tsk.name, tsk.description)
 
     def __str__(self):
         return f"{self.name} ({self.email})"
 
     def __repr__(self):
         return self.__str__()
-
-
 
 
 CLEANING_TASKS = [
@@ -53,13 +62,16 @@ PERSONS = [
 ]
 
 
-def load(filename="grove/core/list.txt"):
+def _load(filename="grove/core/list.txt"):
+    """ Loads a file holding the persons list order for the cleaning tasks """
     return list(np.loadtxt(filename, dtype="str", delimiter=","))
 
 
-def sort():
+def _sort():
+    """ Sorts 'PERSONS' according to persons order in the file obtained by `_load`"""
+
     # Load file
-    target = load()
+    target = _load()
     # Make lowercase
     target = [el.lower() for el in target]
     # Create empty list of size 'target'
@@ -70,42 +82,64 @@ def sort():
     return new_list
 
 
-def push_list_forward(lst, filename="grove/core/list.txt"):
+def _push_list_forward(lst, filename="grove/core/list.txt"):
+    """
+    Makes the last element of a list the first one,
+    moving every element a position foward
+    """
     lst = lst[-1:] + lst[:-1]
     np.savetxt(filename, lst, fmt="%s")
 
 
 @app.task
 def cleaning():
-    push_list_forward(load())
-    persons = sort()
+    """
+    Periodic task to inform everyone about their weekly cleaning tasks
+    """
+    _push_list_forward(_load())
+    persons = _sort()
     for i, task in enumerate(CLEANING_TASKS):
-        if task is not None:
-            persons[i].send_email(task) 
+        persons[i].send_email(task)
 
-
-    
 
 @app.task
 def warn_tuition_fees():
+    """
+    Periodic task to remind everyone to pay the monthly tuition fees
+    """
     # Create task for everyone and send email
-    [p.send_email(Task("Propinas", "Não te esqueças de pagar as propinas até ao final do mês")) for p in PERSONS]
+    [
+        p.send_email(
+            Task("Propinas", "Não te esqueças de pagar as propinas até ao final do mês")
+        )
+        for p in PERSONS
+    ]
 
 
 @app.task
 def send_light_mileage():
-    # Send email to 'Diogo' about eletricity 
-    [p.send_email(Task("Contagem luz", "Não te esqueças de enviar a contagem da luz até amanhã")) for p in PERSONS if p.name.lower()=="diogo"]
+    """
+    Periodic task to remind 'Diogo' about sending the eletric mileage to eletrical supplier
+    """
+    [
+        p.send_email(
+            Task(
+                "Contagem luz", "Não te esqueças de enviar a contagem da luz até amanhã"
+            )
+        )
+        for p in PERSONS
+        if p.name.lower() == "diogo"
+    ]
+
 
 @app.task
 def send_internet_money():
+    """
+    Periodic task to remind everyone to pay the internet bill. (Send money to 'Bruno')
+    """
     # Send email about giving money to 'Bruno' (internet)
-    [p.send_email(Task("Pagar internet", "Não te esqueças de enviar 9,08€ ao Bruno")) for p in PERSONS if p.name.lower()!="bruno"]
-
-
-@app.task
-def test():
-    [p.send_email(Task("TESTE ", "test")) for p in PERSONS if p.name.lower()=="bruno"]
-
-
-
+    [
+        p.send_email(Task("Pagar internet", "Não te esqueças de enviar 9,08€ ao Bruno"))
+        for p in PERSONS
+        if p.name.lower() != "bruno"
+    ]

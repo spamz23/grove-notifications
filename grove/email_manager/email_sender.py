@@ -3,16 +3,13 @@ This modules provides functionality to send an email to a person
 from the Grove House email ("grovehouse.vr@gmail.com")
 """
 import io
+import os
 
 import sendgrid
-import os
-from sendgrid.helpers.mail import *
-
-
+from sendgrid.helpers.mail import Mail, To, From, Content, Subject
 
 from bs4 import BeautifulSoup
 from PIL import Image
-
 
 
 def _image_to_bytes(img_location: str) -> bytes:
@@ -34,7 +31,7 @@ def _image_to_bytes(img_location: str) -> bytes:
     return img_byte_arr.getvalue()
 
 
-def _insert_msg_in_html(html_file: str, text: str) -> str:
+def _insert_msg_in_html(html_file_location: str, text: str) -> str:
     """Opens HTML file and inserts a custom text in a 'div' element with class 'message'
 
     Parameters
@@ -50,7 +47,7 @@ def _insert_msg_in_html(html_file: str, text: str) -> str:
     str
         The modified HTML
     """
-    with open(html_file) as html_file:
+    with open(html_file_location) as html_file:
         soup = BeautifulSoup(html_file.read(), features="html.parser")
         soup.find("div", {"class": "message"}).string.replace_with(text)
         return soup.prettify()
@@ -64,19 +61,22 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     email_dest: str
         Adress to send email
 
-    subject:str
+    subject: str
         The email's subject
 
-    body_msg:str
+    body_msg: str
         The message to insert in the email html template body
     """
     message = _insert_msg_in_html("grove/email_manager/template.html", body_msg)
-    img = _image_to_bytes("grove/email_manager/grove.jpg")
-    sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
-    from_email = Email("grovehouse.vr@gmail.com")
-    subject = subject
+    # TODO: Insert image into html
+    # img = _image_to_bytes("grove/email_manager/grove.jpg")
+    send_grid_api = sendgrid.SendGridAPIClient(
+        api_key=os.environ.get("SENDGRID_API_KEY")
+    )
+    from_email = From("grovehouse.vr@gmail.com")
+    subject = Subject(subject)
     to_email = To(email_dest)
     content = Content("text/html", message)
     mail = Mail(from_email, to_email, subject, content)
 
-    sg.send(mail)    
+    send_grid_api.send(mail)
