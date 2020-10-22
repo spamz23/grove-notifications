@@ -35,9 +35,11 @@ app.conf.update(
         'test':{
             "task":"grove.tasks.test",
             "schedule": crontab(minute=40, hour=0),
-
+        },
+        "cleaning-lady": {
+            "task": "grove.tasks.cleaning_lady",
+            "schedule": crontab(hour=19, minute=30, day_of_week=3),
         }
-
     },
 )
 app.autodiscover_tasks(['grove'], force=True)
