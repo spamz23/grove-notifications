@@ -64,7 +64,7 @@ PERSONS = [
 ]
 
 
-def _load(filename="grove/core/list.txt"):
+def _load(filename="grove/list.txt"):
     """ Loads a file holding the persons list order for the cleaning tasks """
     return list(np.loadtxt(filename, dtype="str", delimiter=","))
 
@@ -84,7 +84,7 @@ def _sort():
     return new_list
 
 
-def _push_list_forward(lst, filename="grove/core/list.txt"):
+def _push_list_forward(lst, filename="grove/list.txt"):
     """
     Makes the last element of a list the first one,
     moving every element a position foward
