@@ -53,12 +53,12 @@ class Person:
 CLEANING_TASKS = [
     Task("Limpeza", "Esta semana fazer a limpeza do WC superior"),
     Task("Limpeza", "Esta semana fazer a limpeza do WC inferior"),
-    Task("Limpeza", "Esta semana fazer a limpeza das escadas"),
+    Task("Limpeza", "Esta semana fazer a limpeza da cozinha e das escadas"),
 ]
 
 PERSONS = [
-    Person("Paulo", "paulo_5_cesar@hotmail.com"),
-    Person("Carlos", "carlos.moreira12@hotmail.com"),
+    Person("Paulo", "paulocosta15896@gmail.com"),
+    Person("Carlos", "carlos.moreira137912@gmail.com"),
     Person("Bruno", "bruno.miguel19995@gmail.com"),
     Person("Diogo", "diogosilv30@gmail.com"),
 ]
