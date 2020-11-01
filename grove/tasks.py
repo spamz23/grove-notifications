@@ -1,6 +1,8 @@
 """ This modules defines all the periodic tasks running in the server"""
 import numpy as np
 
+import datetime
+
 from grove.email_manager.email_sender import send_mail
 
 from main import app, redis_sv
@@ -51,12 +53,12 @@ class Person:
 CLEANING_TASKS = [
     Task("Limpeza", "Esta semana fazer a limpeza do WC superior"),
     Task("Limpeza", "Esta semana fazer a limpeza do WC inferior"),
-    Task("Limpeza", "Esta semana fazer a limpeza das escadas"),
+    Task("Limpeza", "Esta semana fazer a limpeza da cozinha e das escadas"),
 ]
 
 PERSONS = [
-    Person("Paulo", "paulo_5_cesar@hotmail.com"),
-    Person("Carlos", "carlos.moreira12@hotmail.com"),
+    Person("Paulo", "paulocosta15896@gmail.com"),
+    Person("Carlos", "carlos.moreira137912@gmail.com"),
     Person("Bruno", "bruno.miguel19995@gmail.com"),
     Person("Diogo", "diogosilv30@gmail.com"),
 ]
@@ -150,3 +152,23 @@ def send_internet_money():
         for p in PERSONS
         if p.name.lower() != "bruno"
     ]
+
+
+@app.task
+def cleaning_lady():
+    """
+    Periodic task to remind everyone that the cleaning lady comes the next day
+    """
+
+    if ((datetime.date.today().isocalendar()[1]) % 2) != 0:
+
+        # Send email
+        [
+            p.send_email(
+                Task(
+                    "Limpeza Dona Zita",
+                    "Não te esqueças que amanhã a D. Zita vem limpar a casa",
+                )
+            )
+            for p in PERSONS
+        ]

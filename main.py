@@ -16,14 +16,15 @@ app = Celery("tasks")
 
 # Use Redis as our broker and define json as the default serializer
 app.conf.update(
+    timezone="Europe/Lisbon",
     broker_url=REDIS_URL,
     task_serializer="json",
     accept_content=["json"],
     beat_schedule={
-        # Runs every Sunday at 16h30
+        # Runs every Sunday at 19h10
         "cleaning": {
             "task": "grove.tasks.cleaning",
-            "schedule": crontab(hour=16, minute=30, day_of_week=0),
+            "schedule": crontab(hour=19, minute=10, day_of_week=0),
         },
         "tuition-fees": {
             "task": "grove.tasks.warn_tuition_fees",
@@ -40,6 +41,10 @@ app.conf.update(
         "test": {
             "task": "grove.tasks.test",
             "schedule": crontab(minute=40, hour=0),
+        },
+        "cleaning-lady": {
+            "task": "grove.tasks.cleaning_lady",
+            "schedule": crontab(hour=19, minute=30, day_of_week=3),
         },
     },
 )
