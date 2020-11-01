@@ -3,7 +3,7 @@ import numpy as np
 
 from grove.email_manager.email_sender import send_mail
 
-from main import app
+from main import app, redis_sv
 
 
 class Task:
@@ -62,9 +62,14 @@ PERSONS = [
 ]
 
 
-def _load(filename="grove/core/list.txt"):
+def _load():
     """ Loads a file holding the persons list order for the cleaning tasks """
-    return list(np.loadtxt(filename, dtype="str", delimiter=","))
+    # Try to get from redis
+    lst_str = redis_sv.get("people")
+    if lst_str is None:
+        return ["Carlos", "Paulo", "Diogo", "Bruno"]
+    # Split string into a list
+    return lst_str.split(";")
 
 
 def _sort():
@@ -82,13 +87,15 @@ def _sort():
     return new_list
 
 
-def _push_list_forward(lst, filename="grove/core/list.txt"):
+def _push_list_forward(lst):
     """
     Makes the last element of a list the first one,
-    moving every element a position foward
+    moving every element a position foward. Then saves the list in redis server.
     """
+    # push forward
     lst = lst[-1:] + lst[:-1]
-    np.savetxt(filename, lst, fmt="%s")
+    # save in redis
+    redis_sv.set("people", ";".join(lst))
 
 
 @app.task
