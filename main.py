@@ -21,14 +21,9 @@ app.conf.update(
     task_serializer="json",
     accept_content=["json"],
     beat_schedule={
-        # Runs every Sunday at 19h10
-        # "cleaning": {
-        #     "task": "grove.tasks.cleaning",
-        #     "schedule": crontab(hour=19, minute=10, day_of_week=0),
-        # },
         "cleaning": {
             "task": "grove.tasks.cleaning",
-            "schedule": crontab(hour=21, minute=42, day_of_week=0),
+            "schedule": crontab(hour=19, minute=0, day_of_week=0),
         },
         "tuition-fees": {
             "task": "grove.tasks.warn_tuition_fees",
