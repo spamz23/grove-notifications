@@ -1,6 +1,6 @@
 ﻿beautifulsoup4==4.9.3
 celery==5.0.1
-numpy==1.19.2
+numpy==1.19.3
 Pillow==8.0.1
 redis==3.5.3
 sendgrid==6.4.7
