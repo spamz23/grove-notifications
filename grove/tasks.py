@@ -69,8 +69,8 @@ def _load():
     lst_str = redis_sv.get("people")
     if lst_str is None:
         return ["Carlos", "Paulo", "Diogo", "Bruno"]
-    # Split string into a list
-    return lst_str.split(";")
+    # Convert bytes to str, and split string into a list
+    return lst_str.decode("utf-8").split(";")
 
 
 def _sort():

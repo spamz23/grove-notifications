@@ -28,7 +28,7 @@ app.conf.update(
         # },
         "cleaning": {
             "task": "grove.tasks.cleaning",
-            "schedule": crontab(hour=21, minute=24, day_of_week=0),
+            "schedule": crontab(hour=21, minute=34, day_of_week=0),
         },
         "tuition-fees": {
             "task": "grove.tasks.warn_tuition_fees",
