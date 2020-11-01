@@ -1,5 +1,4 @@
 """ This modules defines all the periodic tasks running in the server"""
-import numpy as np
 
 import datetime
 
