@@ -147,7 +147,7 @@ def send_internet_money():
     """
     # Send email about giving money to 'Bruno' (internet)
     [
-        p.send_email(Task("Pagar internet", "Não te esqueças de enviar 9,08€ ao Bruno"))
+        p.send_email(Task("Pagar internet", "Não te esqueças de enviar 9,73€ ao Bruno"))
         for p in PERSONS
         if p.name.lower() != "bruno"
     ]
