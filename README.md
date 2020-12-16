@@ -8,8 +8,7 @@ This repository implements a set of asynchronous tasks to automate some processe
   * Notify about weekly rotating cleaning tasks;
   * etc...
     
-The code is hosted on [Heroku](www.heroku.com) and uses [SendGrid](www.sendgrid.com) for email dispatchment.
-
+The code is hosted on [Heroku](www.heroku.com) and uses Gmail STMP server for email dispatchment.
 Developed and mantained:
 * [Bruno Silva](https://github.com/brunosilva5)
 * [Diogo Silva](https://github.com/spamz23)

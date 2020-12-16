@@ -5,8 +5,6 @@ from the Grove House email ("grovehouse.vr@gmail.com")
 import io
 import os
 
-import sendgrid
-from sendgrid.helpers.mail import Mail, To, From, Content, Subject
 
 from bs4 import BeautifulSoup
 from PIL import Image
@@ -53,6 +51,18 @@ def _insert_msg_in_html(html_file_location: str, text: str) -> str:
         return soup.prettify()
 
 
+import smtplib
+
+from email.mime.text import MIMEText
+
+
+# Attach parts into message container.
+# According to RFC 2046, the last part of a multipart message, in this case
+# the HTML message, is best and preferred.
+
+# Send the message via local SMTP server.
+
+
 def send_mail(email_dest: str, subject: str, body_msg: str):
     """Send an email from GroveHouse to destinatary
 
@@ -68,15 +78,22 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
         The message to insert in the email html template body
     """
     message = _insert_msg_in_html("grove/email_manager/template.html", body_msg)
-    # TODO: Insert image into html
-    # img = _image_to_bytes("grove/email_manager/grove.jpg")
-    send_grid_api = sendgrid.SendGridAPIClient(
-        api_key=os.environ.get("SENDGRID_API_KEY")
-    )
-    from_email = From("grovehouse.vr@gmail.com")
-    subject = Subject(subject)
-    to_email = To(email_dest)
-    content = Content("text/html", message)
-    mail = Mail(from_email, to_email, subject, content)
 
-    send_grid_api.send(mail)
+    html_body = MIMEText(message, "html")
+    html_body["Subject"] = subject
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+
+    server.ehlo()
+
+    server.starttls()  # sendmail function takes 3 arguments: sender's address, recipient's address
+    # and message to send - here it is sent as one string.
+    server.login(
+        os.getenv("EMAIL_USER", "grovehouse.vr@gmail.com"),
+        os.getenv("EMAIL_PASSWORD", "jrfzfpgecasbhqlj"),
+    )
+
+    server.sendmail(
+        os.getenv("EMAIL_USER", "grovehouse.vr@gmail.com"),
+        email_dest,
+        html_body.as_string(),
+    )
