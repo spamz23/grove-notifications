@@ -1,3 +1,4 @@
+from GroveTasks.grove.tasks import pay_the_rent
 import os
 
 from celery import Celery
@@ -50,6 +51,10 @@ app.conf.update(
             "task": "grove.tasks.cleaning_lady",
             "schedule": crontab(hour=19, minute=30, day_of_week=3),
         },
+        "pay_the_rent": {
+            "task": "grove.tasks.pay_the_rent",
+            "schedule": crontab(hour=16, minute=30, day_of_month=7)
+        }
     },
 )
 app.autodiscover_tasks(["grove"], force=True)

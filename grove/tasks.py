@@ -171,3 +171,18 @@ def cleaning_lady():
             )
             for p in PERSONS
         ]
+
+@app.task
+def pay_the_rent():
+    """
+    Periodic task to remind everyone to pay the rent until the next day
+    """
+    [
+        p.send_email(
+            Task(
+                "Pagar Renda",
+                "Não te esqueças de pagar a renda até amanhã"
+            )
+        )
+        for p in PERSONS
+    ]
