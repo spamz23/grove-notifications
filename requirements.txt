@@ -2,5 +2,5 @@
 celery==5.0.4
 Pillow==8.0.1
 redis==3.5.3
-sendgrid==6.4.7
+sendgrid==6.4.8
 redis==3.5.3
