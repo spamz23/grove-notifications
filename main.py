@@ -1,4 +1,3 @@
-from GroveTasks.grove.tasks import pay_the_rent
 import os
 
 from celery import Celery
