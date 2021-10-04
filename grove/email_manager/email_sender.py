@@ -88,12 +88,12 @@ def send_mail(email_dest: str, subject: str, body_msg: str):
     server.starttls()  # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     server.login(
-        os.getenv("EMAIL_USER", "grovehouse.vr@gmail.com"),
-        os.getenv("EMAIL_PASSWORD", "jrfzfpgecasbhqlj"),
+        os.getenv("EMAIL_USER"),
+        os.getenv("EMAIL_PASSWORD"),
     )
 
     server.sendmail(
-        os.getenv("EMAIL_USER", "grovehouse.vr@gmail.com"),
+        os.getenv("EMAIL_USER"),
         email_dest,
         html_body.as_string(),
     )

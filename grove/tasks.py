@@ -57,7 +57,7 @@ CLEANING_TASKS = [
 
 PERSONS = [
     Person("Paulo", "paulocosta15896@gmail.com"),
-    Person("Carlos", "carlos.moreira137912@gmail.com"),
+    Person("Carlos", "diogomdgomes@gmail.com"),
     Person("Bruno", "bruno.miguel19995@gmail.com"),
     Person("Diogo", "diogosilv30@gmail.com"),
 ]
@@ -165,8 +165,8 @@ def cleaning_lady():
         [
             p.send_email(
                 Task(
-                    "Limpeza Dona Zita",
-                    "Não te esqueças que amanhã a D. Zita vem limpar a casa",
+                    "Limpeza Cátia",
+                    "Não te esqueças que amanhã a Cátia vem limpar a casa",
                 )
             )
             for p in PERSONS

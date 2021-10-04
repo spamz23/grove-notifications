@@ -43,7 +43,7 @@ app.conf.update(
         },
         "cleaning-lady": {
             "task": "grove.tasks.cleaning_lady",
-            "schedule": crontab(hour=19, minute=30, day_of_week=3),
+            "schedule": crontab(hour=19, minute=30, day_of_week=1),
         },
         "pay_the_rent": {
             "task": "grove.tasks.pay_the_rent",
