@@ -25,7 +25,7 @@ class Task:
 
 
 class Person:
-    """ This class defines a person living in Grove House"""
+    """This class defines a person living in Grove House"""
 
     def __init__(self, name, email):
         self.name = name
@@ -64,7 +64,7 @@ PERSONS = [
 
 
 def _load():
-    """ Loads a file holding the persons list order for the cleaning tasks """
+    """Loads a file holding the persons list order for the cleaning tasks"""
     # Try to get from redis
     lst_str = redis_sv.get("people")
     if lst_str is None:
@@ -74,7 +74,7 @@ def _load():
 
 
 def _sort():
-    """ Sorts 'PERSONS' according to persons order in the file obtained by `_load`"""
+    """Sorts 'PERSONS' according to persons order in the file obtained by `_load`"""
 
     # Load file
     target = _load()
@@ -172,17 +172,13 @@ def cleaning_lady():
             for p in PERSONS
         ]
 
+
 @app.task
 def pay_the_rent():
     """
     Periodic task to remind everyone to pay the rent until the next day
     """
     [
-        p.send_email(
-            Task(
-                "Pagar Renda",
-                "Não te esqueças de pagar a renda até amanhã"
-            )
-        )
+        p.send_email(Task("Pagar Renda", "Não te esqueças de pagar a renda até amanhã"))
         for p in PERSONS
     ]

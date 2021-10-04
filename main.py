@@ -47,8 +47,8 @@ app.conf.update(
         },
         "pay_the_rent": {
             "task": "grove.tasks.pay_the_rent",
-            "schedule": crontab(hour=16, minute=30, day_of_month=7)
-        }
+            "schedule": crontab(hour=16, minute=30, day_of_month=7),
+        },
     },
 )
 app.autodiscover_tasks(["grove"], force=True)
