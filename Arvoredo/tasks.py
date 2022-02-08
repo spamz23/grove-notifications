@@ -57,7 +57,7 @@ CLEANING_TASKS = [
 
 PERSONS = [
     Person("Paulo", "paulocosta15896@gmail.com"),
-    Person("Carlos", "diogomdgomes@gmail.com"),
+    Person("Gonçalo", "goncaloaraujo2003@gmail.com"),
     Person("Bruno", "bruno.miguel19995@gmail.com"),
     Person("Diogo", "diogosilv30@gmail.com"),
 ]
