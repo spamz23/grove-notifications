@@ -8,7 +8,6 @@ from django.template.loader import render_to_string
 from .managers import UserManager
 
 
-@admin.register()
 class User(AbstractUser):
     """
     The custom User Django model.
