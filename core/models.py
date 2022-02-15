@@ -7,7 +7,8 @@ from django.template.loader import render_to_string
 
 from .managers import UserManager
 
-# Create your models here.
+
+@admin.register()
 class User(AbstractUser):
     """
     The custom User Django model.
