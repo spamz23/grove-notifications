@@ -65,8 +65,8 @@ class User(AbstractUser):
         Notifies the user
         """
         args = {"message": message}
-        msg_plain = render_to_string("templates/email_notification.txt", args)
-        msg_html = render_to_string("templates/email_notification.html", args)
+        msg_plain = render_to_string("email_notification.txt", args)
+        msg_html = render_to_string("email_notification.html", args)
         send_mail(
             subject,
             msg_plain,
