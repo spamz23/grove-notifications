@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-
+from django.conf import settings
 
 from .managers import UserManager
 
@@ -70,6 +70,7 @@ class User(AbstractUser):
         send_mail(
             subject,
             msg_plain,
+            from_email=settings.EMAIL_HOST_USER,
             recipient_list=[self.email],
             fail_silently=False,
             html_message=msg_html,
